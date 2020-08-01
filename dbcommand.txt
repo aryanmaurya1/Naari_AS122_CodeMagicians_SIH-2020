@@ -1,0 +1,1 @@
+psql -h naari.cm5ntlz6dd3o.us-east-2.rds.amazonaws.com -p 5432 -U naari -W -d db2

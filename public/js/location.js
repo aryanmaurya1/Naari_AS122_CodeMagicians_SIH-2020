@@ -1,10 +1,4 @@
-const para = document.getElementById("para");
-console.log(para);
-
-
-const button = document.getElementById("h");
-console.log(button);
-
+const button = document.getElementById("location")
 button.onclick = function() {
   var startPos;
   var nudge = document.getElementById("nudge");
