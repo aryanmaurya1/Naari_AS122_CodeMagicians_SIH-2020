@@ -4,9 +4,6 @@ const LocalStrategy = passportLocal.Strategy;
 const { query } = require("../db");
 
 
-const digi_shopkeeper_strategy = new LocalStrategy(
-
-)
 
 
 const configStrategy = (passport) => {

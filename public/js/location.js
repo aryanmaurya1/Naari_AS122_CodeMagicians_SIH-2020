@@ -1,4 +1,5 @@
-const button = document.getElementById("location")
+const button = document.getElementById("btn");
+
 button.onclick = function() {
   var startPos;
   var nudge = document.getElementById("nudge");
@@ -20,8 +21,10 @@ button.onclick = function() {
 
     // Do magic with location
     startPos = position;
-    document.getElementById('startLat').innerHTML = startPos.coords.latitude;
-    document.getElementById('startLon').innerHTML = startPos.coords.longitude;
+    const latt = document.getElementById('latt');
+    const long = document.getElementById('long'); 
+    latt.setAttribute("value",startPos.coords.latitude);
+    long.setAttribute("value", startPos.coords.longitude)
   };
   var geoError = function(error) {
     switch(error.code) {

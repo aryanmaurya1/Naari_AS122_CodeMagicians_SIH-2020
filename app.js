@@ -13,6 +13,7 @@ const { COOKIE_SECRET, SESSION_SECRET, PORT, HOSTNAME } = require("./env");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+const { configStrategy, isAuthenticated } = require("./config/passport");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
