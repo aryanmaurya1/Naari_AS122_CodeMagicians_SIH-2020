@@ -1,0 +1,80 @@
+a,
+a:focus,
+a:hover {
+  color: #fff;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: rgb(42, 70, 110);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.header {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  font-family: 'Josefin Sans', sans-serif;
+}
+.company-name {
+  display: inline-flex;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: large;
+  color:white;
+}
+.nav-container{
+  display: inline-flex;
+  flex-direction: row-reverse;
+  flex-grow: 2;
+}
+.nav{
+  display: inline-flex;
+  flex-direction: row-reverse;
+  align-self: center;
+}
+.nav-link {
+  display: inline-flex;
+  flex-direction: row;
+  margin: 3px;
+  font-style: 'Josefin Sans', sans-serif;
+  font-size: medium;
+}
+
+.cover-heading{
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 3px;
+}
+
+.cover{
+  display: inline-flex;
+  justify-content: center;
+  padding:80px;
+  padding-top: 10px;
+  padding-bottom:1px;
+  margin-bottom: 0px;;
+  font-family: 'Roboto Mono', monospace;
+  font-size: x-large
+}
+
+.cover-footer{
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 0px;
+  margin-bottom: 2px; 
+}
+
+.arrow-down{
+  display: inline-flex;
+  align-self: flex-end;
+}
