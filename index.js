@@ -6,7 +6,7 @@ const http = require("http");
 const app  = express();
 
 const hostname = "localhost";
-const port = 5678;
+const port = 7432;
 
 const server = http.createServer(app);
 app.use(bodyParser.json());
@@ -22,5 +22,5 @@ app.use(express.static(path.join(__dirname,"/public")));
 
 
 server.listen(port,hostname,function(){
-  console.log("server is listening at http://localhost:5678");
+  console.log("server is listening at http://localhost:7432");
 })
