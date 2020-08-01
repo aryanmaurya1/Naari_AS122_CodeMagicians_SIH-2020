@@ -1,16 +1,16 @@
 create table wallets(
   wallet_no bigserial primary key,
-  wallet_ballance real not null default 0.00 
+  wallet_balance real not null default 0.00 
 );
 
-create table digi_shopkeeper(
-  digi_shokeeper_id bigserial primary key,
-  digi_shopkeeper_name text not null,
-  digi_shopkeeper_mobile char(10) not null,
-  digi_shokeeper_pass text not null,
-  digi_shopkeeper_latt real not null,
-  digi_shopkeeper_long real not null,
-  digi_shopkeeper_wallet_no bigserial references wallets(wallet_no) not null 
+create table digishopkeeper(
+  digishopkeeper_id bigserial primary key,
+  digishopkeeper_name text not null,
+  digishopkeeper_phonenumber char(10) not null unique,
+  digishopkeeper_pass text not null,
+  digishopkeeper_latt real not null,
+  digishopkeeper_long real not null,
+  digishopkeeper_wallet_no bigserial references wallets(wallet_no) not null 
 );
 
 

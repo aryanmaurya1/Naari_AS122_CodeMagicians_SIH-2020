@@ -14,6 +14,10 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 const { configStrategy, isAuthenticated } = require("./config/passport");
+const digishopkeeper = require("./controller/digishopkeeper");
+
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
@@ -43,6 +47,14 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.static(path.join(__dirname, "/public")));
+
+app.get("/digishopkeeper/login", digishopkeeper.getLogin);
+app.post("/digishopkeeper/login", digishopkeeper.postLogin);
+app.get("/digishopkeeper/signup", digishopkeeper.getSignUp);
+app.post("/digishopkeeper/signup",digishopkeeper.postSignUp);
+
+
+
 
 const server = http.createServer(app);
 
