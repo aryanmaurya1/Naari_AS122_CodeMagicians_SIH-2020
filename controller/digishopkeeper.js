@@ -1,13 +1,14 @@
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const { check, validationResult } = require("express-validator");
-const { query,digishopkeeper_transaction } = require("../db");
+const { query, digishopkeeper_transaction } = require("../db");
 const child = require("../config/child");;
 const checksum_lib = require("../config/checksum");
 const https = require("https");
-const cookieParser = require('cookie-parser');
-const {HOSTNAME} = require("../env");
 
+var cookies = null;
+
+const { HOSTNAME } = require("../env");
 const PaytmConfig = {
   mid: "WAdOtf51495931344880",
   key: "Ka@oQE5rr!hILh6n",
@@ -15,17 +16,17 @@ const PaytmConfig = {
 }
 
 const params = {};
-  params['MID'] = PaytmConfig.mid;
-  params['WEBSITE'] = PaytmConfig.website;
-  params['CHANNEL_ID'] = 'WEB';
-  params['INDUSTRY_TYPE_ID'] = 'Retail';
-  params['ORDER_ID'] = 'TEST_' + new Date().getTime();
-  params['CUST_ID'] = 'Customer001';
-  params['TXN_AMOUNT'] = '1.00';
-  params['CALLBACK_URL'] = `http://${HOSTNAME}:7432/digishopkeeper/oncompletion`;
-  params['EMAIL'] = 'abc@mailinator.com';
-  params['MOBILE_NO'] = '7777777777';
-  
+params['MID'] = PaytmConfig.mid;
+params['WEBSITE'] = PaytmConfig.website;
+params['CHANNEL_ID'] = 'WEB';
+params['INDUSTRY_TYPE_ID'] = 'Retail';
+params['ORDER_ID'] = 'TEST_' + new Date().getTime();
+params['CUST_ID'] = 'Customer001';
+params['TXN_AMOUNT'] = '1.00';
+params['CALLBACK_URL'] = `http://${HOSTNAME}:7432/digishopkeeper/oncompletion`;
+params['EMAIL'] = 'abc@mailinator.com';
+params['MOBILE_NO'] = '7777777777';
+
 
 
 const getSignUp = (req, res) => {
@@ -34,11 +35,11 @@ const getSignUp = (req, res) => {
 
 const postSignUp = async (req, res) => {
   await check("digishopkeeper_phonenumber").isMobilePhone("en-IN").run(req);
-  await check("digishopkeeper_name").isLength({min:1}).run(req);
-  await check("digishopkeeper_password").isLength({min:1}).run(req);
+  await check("digishopkeeper_name").isLength({ min: 1 }).run(req);
+  await check("digishopkeeper_password").isLength({ min: 1 }).run(req);
   await check("digishopkeeper_confirmPassword").equals(req.body.digishopkeeper_confirmPassword).run(req);
-  await check("digishopkeeper_latt").isLength({min:1}).run(req);
-  await check("digishopkeeper_long").isLength({min:1}).run(req);
+  await check("digishopkeeper_latt").isLength({ min: 1 }).run(req);
+  await check("digishopkeeper_long").isLength({ min: 1 }).run(req);
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -53,63 +54,63 @@ const postSignUp = async (req, res) => {
         err += "Invalid " + element.param + ".";
       }
     });
-    req.flash("error",` ${err}`);
+    req.flash("error", ` ${err}`);
     res.redirect("/digishopkeeper/signup");
     return;
   }
 
-  const {digishopkeeper_phonenumber, digishopkeeper_name, digishopkeeper_password, digishopkeeper_latt, digishopkeeper_long } = req.body;
+  const { digishopkeeper_phonenumber, digishopkeeper_name, digishopkeeper_password, digishopkeeper_latt, digishopkeeper_long } = req.body;
 
-  query("SELECT digishopkeeper_id FROM digishopkeeper WHERE digishopkeeper_phonenumber=$1",[digishopkeeper_phonenumber]) 
-    .then(function(result) {
-        if(result.rows.length !== 0) {
-          req.flash("error", "already registered kindly login to continue");
-          res.redirect("/digishopkeeper/signup"); 
-          return;
-        }
-        
-        bcrypt.genSalt(3)
-          .then(function(salt){
-            bcrypt.hash(digishopkeeper_password,salt)
-             .then(function(hash) {
+  query("SELECT digishopkeeper_id FROM digishopkeeper WHERE digishopkeeper_phonenumber=$1", [digishopkeeper_phonenumber])
+    .then(function (result) {
+      if (result.rows.length !== 0) {
+        req.flash("error", "already registered kindly login to continue");
+        res.redirect("/digishopkeeper/signup");
+        return;
+      }
+
+      bcrypt.genSalt(3)
+        .then(function (salt) {
+          bcrypt.hash(digishopkeeper_password, salt)
+            .then(function (hash) {
               query("INSERT INTO wallets(wallet_balance) VALUES($1) RETURNING wallet_no", [0])
-                .then(function(result){
+                .then(function (result) {
                   const wallet_no = result.rows[0].wallet_no;
-                  query("INSERT INTO digishopkeeper(digishopkeeper_phonenumber, digishopkeeper_name, digishopkeeper_pass, digishopkeeper_latt, digishopkeeper_long, digishopkeeper_wallet_no) VALUES($1,$2,$3,$4,$5,$6)", [digishopkeeper_phonenumber,digishopkeeper_name, hash, digishopkeeper_latt, digishopkeeper_long, wallet_no ])
-                    .then(function(result) {
+                  query("INSERT INTO digishopkeeper(digishopkeeper_phonenumber, digishopkeeper_name, digishopkeeper_pass, digishopkeeper_latt, digishopkeeper_long, digishopkeeper_wallet_no) VALUES($1,$2,$3,$4,$5,$6)", [digishopkeeper_phonenumber, digishopkeeper_name, hash, digishopkeeper_latt, digishopkeeper_long, wallet_no])
+                    .then(function (result) {
                       req.flash("success_message", "signup successfull");
                       res.redirect("/digishopkeeper/login");
                     })
-                    .catch(function(err) {
-                      
+                    .catch(function (err) {
+
+                      console.log(err);
+
+                      req.flash("error", "internal server error");
+                      res.redirect("/digishopkeeper/signup");
+                    })
+                })
+                .catch(function (err) {
                   console.log(err);
 
                   req.flash("error", "internal server error");
                   res.redirect("/digishopkeeper/signup");
-                    })
                 })
-                .catch(function(err) {
-                  console.log(err);
+            })
+            .catch(function (err) {
+              console.log(err);
+              req.flash("error", "internal server error");
+              res.redirect("/digishopkeeper/signup");
+            })
+        })
+        .catch(function (err) {
+          console.log(err);
+          req.flash("error", "internal server error");
+          res.redirect("/digishopkeeper/signup");
+        })
 
-                req.flash("error", "internal server error");
-                res.redirect("/digishopkeeper/signup");
-                })
-             })
-             .catch(function(err){
-                console.log(err);
-                req.flash("error", "internal server error");
-                res.redirect("/digishopkeeper/signup");
-             })
-          })
-          .catch(function(err){
-            console.log(err);
-            req.flash("error", "internal server error");
-            res.redirect("/digishopkeeper/signup");            
-          })
-          
-      
+
     })
-    .catch(function(err) {
+    .catch(function (err) {
       console.log(err);
       req.flash("error", "internal server error");
       res.redirect("/digishopkeeper/signup");
@@ -122,7 +123,7 @@ const getLogin = (req, res) => {
   res.render("digishopkeeperlogin");
 }
 
-const postLogin = async (req, res,next) => {
+const postLogin = async (req, res, next) => {
   await check("digishopkeeper_password").isLength({ min: 1 }).run(req);
   await check("digishopkeeper_phonenumber").isMobilePhone("en-IN").run(req);
   const errors = validationResult(req);
@@ -141,36 +142,36 @@ const postLogin = async (req, res,next) => {
 
 const getsendpage = (req, res) => {
   const digishopkeeper_id = req.session.passport.user;
-  query("SELECT digishopkeeper_wallet_no FROM digishopkeeper WHERE digishopkeeper_id=$1",[digishopkeeper_id])
-    .then(function(result){
+  query("SELECT digishopkeeper_wallet_no FROM digishopkeeper WHERE digishopkeeper_id=$1", [digishopkeeper_id])
+    .then(function (result) {
       const wallet_no = result.rows[0].digishopkeeper_wallet_no;
-      query("SELECT wallet_balance FROM wallets WHERE wallet_no=$1",[wallet_no])
-        .then(function(result) {
+      query("SELECT wallet_balance FROM wallets WHERE wallet_no=$1", [wallet_no])
+        .then(function (result) {
           const wallet_balance = result.rows[0].wallet_balance;
-          res.render("send",{wallet_balance:wallet_balance});
+          res.render("send", { wallet_balance: wallet_balance });
         })
-        .catch(function(err){
+        .catch(function (err) {
           console.log(err);
           req.flash("error", "kindly try again");
           res.redirect("/digishopkeeper/login");
         })
     })
-    .catch(function(err) {
+    .catch(function (err) {
       console.log(err);
       req.flash("error", "kindly try again");
       res.redirect("/digishopkeeper/login");
-    })  
+    })
 }
 
 
 const postConvertMoney = async (req, res) => {
   await check("reciever").isMobilePhone("en-IN").run(req);
   const errors = validationResult(req);
-  
-  if(!errors.isEmpty()) {
+
+  if (!errors.isEmpty()) {
     res.statusCode = 422;
     console.log(errors);
-    req.flash("error","Invalid Request, Kindly check for all the details");
+    req.flash("error", "Invalid Request, Kindly check for all the details");
     res.redirect("/digishopkeeper/send");
   }
 
@@ -179,43 +180,50 @@ const postConvertMoney = async (req, res) => {
     res.redirect('/digishopkeeper/send');
     return;
   }
-  const {reciever} = req.body;
+  const { reciever } = req.body;
   const sender_id = req.session.passport.user;
   const file = req.files.money;
   console.log(file);
   const extension = file.name.split('.')[1];
   console.log(req.sessionID);
-  const filename = req.sessionID +  "." + extension;
-  file.mv(`/home/onbit-syn/AS122_CodeMagicians_SIH2020/money/${filename}`, function(err) {
+  const filename = req.sessionID + "." + extension;
+  file.mv(`/home/onbit-syn/AS122_CodeMagicians_SIH2020/money/${filename}`, function (err) {
     if (err) {
       console.log(err);
-      req.flash("error","error occured while uploading a file");
+      req.flash("error", "error occured while uploading a file");
       res.redirect('/digishopkeeper/send');
       return;
     }
     child.run(filename)
-    .then(async function(amnt){
-      console.log("Predicted Amount is", amnt);
-      // await digiIndianTransferMoney(reciever,sender_id);
-      await digishopkeeper_transaction(reciever, sender_id, parseFloat(amnt+'.00'));
-      renderPaymentGateway(amnt,req,res);
+      .then(async function (amnt) {
+        console.log("Predicted Amount is", amnt);
 
-    })
-    .catch(function(err){
-      console.log(err);
-      req.flash("error", "internal server error");
-    })
+        //await digishopkeeper_transaction(reciever, sender_id, parseFloat(a
+        query("INSERT INTO recievers(reciever_phonenumber, sender_id) VALUES($1,$2)", [reciever, sender_id])
+          .then(function (result) {
+            renderPaymentGateway(amnt, req, res);
+          })
+          .catch(function (err) {
+            console.log(err);
+            req.flash("error", "internal server error");
+          })
+
+      })
+      .catch(function (err) {
+        console.log(err);
+        req.flash("error", "internal server error");
+      })
   });
 }
 
-function renderPaymentGateway(amount,req,res) {
-  console.log(typeof(amount));
-  
-  
-  
+function renderPaymentGateway(amount, req, res) {
+  console.log(typeof (amount));
+
+
+
   const txn_url = "https://securegw-stage.paytm.in/theia/processTransaction";
-  
-  
+
+
   params['TXN_AMOUNT'] = amount.toString() + '.00';
   console.log(params);
   // starting paytm transaction
@@ -234,69 +242,88 @@ function renderPaymentGateway(amount,req,res) {
  * POST /digishopkeeper/oncompletion 
  */
 const digishopkeeperoncompletion = async (req, res) => {
-  console.log("digishopkeeper on completion",req.body);
-  // verify the checksum
-  let checksumhash = req.body.CHECKSUMHASH;
-  let result = checksum_lib.verifychecksum(req.body, PaytmConfig.key, checksumhash);
-  console.log("Checksum Result => ", result, "\n");
+  const id = req.session.passport.user;
+
+  query("SELECT reciever_phonenumber FROM recievers WHERE sender_id=$1", [id])
+    .then(function (x) {
+      const reciever_phonenumber = x.rows[0].reciever_phonenumber;
+      console.log("digishopkeeper on completion", req.body);
+      // verify the checksum
+      let checksumhash = req.body.CHECKSUMHASH;
+      let result = checksum_lib.verifychecksum(req.body, PaytmConfig.key, checksumhash);
+      console.log("Checksum Result => ", result, "\n");
 
 
 
-  // Send Server-to-Server request to verify Order Status
-  let params = { "MID": PaytmConfig.mid, "ORDERID": req.body.ORDERID };
+      // Send Server-to-Server request to verify Order Status
+      let params = { "MID": PaytmConfig.mid, "ORDERID": req.body.ORDERID };
 
-  checksum_lib.genchecksum(params, PaytmConfig.key, function (err, checksum) {
+      checksum_lib.genchecksum(params, PaytmConfig.key, function (err, checksum) {
 
-    params.CHECKSUMHASH = checksum;
-    let post_data = 'JsonData=' + JSON.stringify(params);
+        params.CHECKSUMHASH = checksum;
+        let post_data = 'JsonData=' + JSON.stringify(params);
 
-    var options = {
-      hostname: 'securegw-stage.paytm.in', // for staging
-      port: 443,
-      path: '/merchant-status/getTxnStatus',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': post_data.length
-      }
-    };
-
-
-    // Set up the request
-    var response = "";
-    var post_req = https.request(options, async function (post_res) {
-      post_res.on('data', function (chunk) {
-        response += chunk;
-      });
-
-      post_res.on('end', async function () {
-        console.log('S2S Response: ', response, "\n");
-        let tnx_response = JSON.parse(response);
-        console.log(tnx_response);
-
-        if (tnx_response.STATUS !== 'TXN_SUCCESS') {
-          req.flash("error", "error occured while adding money to gullak");
-          res.send("/digishopkeeper/send");
-        }
-        else {
-          try{
-            req.flash("success_message", "transaction successfull");
-            res.redirect("/digishopkeeper/send");
-          } catch(err) {
-            console.log(err);
-            req.flash("error", "error occured while performing transaction");
-            res.redirect("/digishopkeeper/send");
+        var options = {
+          hostname: 'securegw-stage.paytm.in', // for staging
+          port: 443,
+          path: '/merchant-status/getTxnStatus',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': post_data.length
           }
+        };
 
-          
-        }
+
+        // Set up the request
+        var response = "";
+        var post_req = https.request(options, async function (post_res) {
+          post_res.on('data', function (chunk) {
+            response += chunk;
+          });
+
+          post_res.on('end', async function () {
+            console.log('S2S Response: ', response, "\n");
+            let tnx_response = JSON.parse(response);
+            console.log(tnx_response);
+
+            if (tnx_response.STATUS !== 'TXN_SUCCESS') {
+              req.flash("error", "error occured while adding money to gullak");
+              res.send("/digishopkeeper/send");
+            }
+            else {
+              try {
+                await digishopkeeper_transaction(reciever_phonenumber, id, parseFloat(tnx_response.TXNAMOUNT));
+                req.flash("success_message", "transaction successfull");
+                res.redirect("/digishopkeeper/send");
+              } catch (err) {
+                console.log(err);
+                req.flash("error", "Insufficient balance kindly add money to your wallet");
+                res.redirect("/digishopkeeper/send");
+              }
+
+
+            }
+          });
+        });
+
+        // post the data
+        post_req.write(post_data);
+        post_req.end();
       });
+
+
+    })
+    .catch(function (err) {
+      console.log(err);
+      req.flash("error", "error occured while performing transaction");
+      res.redirect("/digishopkeeper/send");
     });
 
-    // post the data
-    post_req.write(post_data);
-    post_req.end();
-  });
+
+
+
+
 }
 
 
@@ -307,5 +334,5 @@ module.exports = {
   postLogin: postLogin,
   send: getsendpage,
   postConvertMoney: postConvertMoney,
-  digishopkeeperoncompletion : digishopkeeperoncompletion
+  digishopkeeperoncompletion: digishopkeeperoncompletion
 };

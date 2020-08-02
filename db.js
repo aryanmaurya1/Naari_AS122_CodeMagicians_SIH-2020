@@ -34,9 +34,16 @@ const digishopkeeper_transaction = async function(reciever_phonenumber, sender_i
     
     const sender_wallet_no = (await client.query("SELECT digishopkeeper_wallet_no FROM digishopkeeper WHERE digishopkeeper_id=$1",[sender_id])).rows[0].digishopkeeper_wallet_no;
 
+    const sender_wallet_balance = (await client.query("SELECT wallet_balance FROM wallets WHERE wallet_no=$1",[sender_wallet_no])).rows[0].wallet_balance;
+
+    if(sender_wallet_balance < amount) {
+      throw new Error("insufficient balance");
+    }
     await client.query("UPDATE wallets SET wallet_balance=wallet_balance-$1 WHERE wallet_no=$2",[amount,sender_wallet_no]);
 
     await client.query("UPDATE wallets SET wallet_balance=wallet_balance+$1 WHERE wallet_no=$2",[amount, reciever_wallet_no]);
+
+    await client.query("DELETE FROM recievers WHERE sender_id=$1",[sender_id]);
 
     await client.query('COMMIT');
   } catch(err){

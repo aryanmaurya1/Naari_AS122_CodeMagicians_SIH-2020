@@ -30,3 +30,9 @@ create table women(
   woman_isemployed boolean not null default false,
   woman_wallet_no bigserial references wallets(wallet_no) not null
 );
+
+create table recievers(
+  id bigserial primary key,
+  reciever_phonenumber char(10) not null,
+  sender_id bigserial references digishopkeeper(digishopkeeper_id) not null
+);
