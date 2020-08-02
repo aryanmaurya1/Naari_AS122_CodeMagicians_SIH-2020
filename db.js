@@ -15,12 +15,23 @@ const query = function (sqlcommand,params) {
       });
   });
 }
+// select woman_wallet_no from women where woman_phonenumber='9415436545';
+
 
 const digishopkeeper_transaction = async function(reciever_phonenumber, sender_id, amount) {
   const client = await pool.connect();
   try{
+    console.log(typeof(reciever_phonenumber));
+    console.log(sender_id);
+    console.log(amount);
     await client.query('BEGIN');
-    const reciever_wallet_no = (await client.query("SELECT woman_wallet_no FROM women WHERE woman_phonenumber=$1",[reciever_phonenumber])).rows[0].woman_wallet_no;
+    
+
+
+    let result = await client.query("SELECT woman_wallet_no FROM women WHERE woman_phonenumber=$1",[reciever_phonenumber])
+    // console.log(result);
+    const reciever_wallet_no = result.rows[0].woman_wallet_no;
+    
     const sender_wallet_no = (await client.query("SELECT digishopkeeper_wallet_no FROM digishopkeeper WHERE digishopkeeper_id=$1",[sender_id])).rows[0].digishopkeeper_wallet_no;
 
     await client.query("UPDATE wallets SET wallet_balance=wallet_balance-$1 WHERE wallet_no=$2",[amount,sender_wallet_no]);

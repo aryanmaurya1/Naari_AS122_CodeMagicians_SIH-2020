@@ -197,7 +197,7 @@ const postConvertMoney = async (req, res) => {
     .then(async function(amnt){
       console.log("Predicted Amount is", amnt);
       // await digiIndianTransferMoney(reciever,sender_id);
-      res.cookie("reciever_phonenumber",reciever);
+      await digishopkeeper_transaction(reciever, sender_id, parseFloat(amnt+'.00'));
       renderPaymentGateway(amnt,req,res);
 
     })
@@ -235,9 +235,6 @@ function renderPaymentGateway(amount,req,res) {
  */
 const digishopkeeperoncompletion = async (req, res) => {
   console.log("digishopkeeper on completion",req.body);
-  const sender_id = req.session.passport.user;
-  const reciever_phonenumber = req.cookies.reciever_phonenumber;
-
   // verify the checksum
   let checksumhash = req.body.CHECKSUMHASH;
   let result = checksum_lib.verifychecksum(req.body, PaytmConfig.key, checksumhash);
@@ -283,8 +280,7 @@ const digishopkeeperoncompletion = async (req, res) => {
         }
         else {
           try{
-            await digishopkeeper_transaction(sender_id, reciever_phonenumber);
-            req.flash("success_message", "success");
+            req.flash("success_message", "transaction successfull");
             res.redirect("/digishopkeeper/send");
           } catch(err) {
             console.log(err);
