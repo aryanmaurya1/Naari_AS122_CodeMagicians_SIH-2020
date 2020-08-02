@@ -1,0 +1,60 @@
+
+  .myIconshape{
+    font-size: 40px;
+    height: 30px;
+    display:table-cell;
+    font-display: right;
+    float:right;
+    padding: 40px;
+    }
+
+
+
+    .myBg{
+    background-color:rgb(34, 40, 58);
+    
+    }
+
+    #slideshowImg{
+    height: 500px;
+    object-fit: cover;
+    }
+    
+    .carousel-caption{
+    display: inline;
+    color:black;
+    }
+
+    .mybanner{
+    background-color: darkgray;
+    text-align: center;
+    padding-top: 40px;
+    padding-bottom: 30px;
+    font-size: 15px;
+    
+    }
+    .myTextalignment{
+    float: left;
+    align-content: center;
+    
+    }
+    .myIconsize{
+   align-items:baseline;
+   display:inline-block;
+    
+    }
+
+    .mybannerspace{
+    margin-bottom: 20px;
+    }
+    ul.nav-pills {
+      top: 20px;
+      position: fixed;
+    }
+    div.col-8 div {
+      height: 300px;
+    }
+    .footer{
+      background-color:slategray;
+    }
+    

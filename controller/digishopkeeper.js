@@ -6,7 +6,7 @@ const child = require("../config/child");;
 const checksum_lib = require("../config/checksum");
 const https = require("https");
 const cookieParser = require('cookie-parser');
-
+const {HOSTNAME} = require("../env");
 
 const PaytmConfig = {
   mid: "WAdOtf51495931344880",
@@ -22,7 +22,7 @@ const params = {};
   params['ORDER_ID'] = 'TEST_' + new Date().getTime();
   params['CUST_ID'] = 'Customer001';
   params['TXN_AMOUNT'] = '1.00';
-  params['CALLBACK_URL'] = 'http://localhost:7432/digishopkeeper/oncompletion';
+  params['CALLBACK_URL'] = `http://${HOSTNAME}:7432/digishopkeeper/oncompletion`;
   params['EMAIL'] = 'abc@mailinator.com';
   params['MOBILE_NO'] = '7777777777';
   
