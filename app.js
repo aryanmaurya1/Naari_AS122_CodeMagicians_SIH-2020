@@ -3,11 +3,13 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const path = require("path");
 const http = require("http");
+const cors = require('cors');
 const app  = express();
 const flash = require("connect-flash");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
+const fileUpload = require("express-fileupload");
 const { COOKIE_SECRET, SESSION_SECRET, PORT, HOSTNAME } = require("./env");
 
 app.set("view engine", "ejs");
@@ -20,7 +22,10 @@ const digishopkeeper = require("./controller/digishopkeeper");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors())
 app.use(morgan("dev"));
+app.use(fileUpload());
+
 
 app.use(cookieParser(COOKIE_SECRET));
 
@@ -52,8 +57,9 @@ app.get("/digishopkeeper/login", digishopkeeper.getLogin);
 app.post("/digishopkeeper/login", digishopkeeper.postLogin);
 app.get("/digishopkeeper/signup", digishopkeeper.getSignUp);
 app.post("/digishopkeeper/signup",digishopkeeper.postSignUp);
-
-
+app.get("/digishopkeeper/send", isAuthenticated, digishopkeeper.send);
+app.post("/digishopkeeper/send", isAuthenticated, digishopkeeper.postConvertMoney);
+app.post("/digishopkeeper/oncompletion",isAuthenticated, digishopkeeper.digishopkeeperoncompletion);
 
 
 const server = http.createServer(app);
