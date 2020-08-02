@@ -2,81 +2,781 @@
 <html lang="en">
 
 <head>
+  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="A file storage service for team">
-  <meta name="author" content="codemagicians-anubhav_vats">
-  <link rel="icon" type="images/png" href="/images/logo.jpg">
-  <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/united/bootstrap.min.css">
+  <meta name="Description" content="">
+  <link rel="icon" type="images/jpg" href="images/logo.jpg">
+  <meta name="Keywords" content="web design,HTML">
+  <meta name="author" content="CodeMagicians">
 
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="fontawesome-free-5.13.0-web/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+  <!-- My CSS-->
+  <title>महिला सशक्तिकरण | Women Empowerment</title>
+  <link href="css/home.css" rel="stylesheet">
+  <script src="/js/chatbot.js"></script>
   <style>
-    .customborder {
-      border-radius: 2%;
-      border: 2px solid black;
+    * {
+      box-sizing: border-box;
 
+    }
+
+    /* Button used to open the chat form - fixed at the bottom of the page */
+    .open-button {
+      background-color: #555;
+      color: white;
+      padding: 16px 20px;
+      border: none;
+      cursor: pointer;
+      opacity: 0.8;
+      position: fixed;
+      bottom: 23px;
+      right: 28px;
+      width: 280px;
+      z-index: 7;
+    }
+
+    /* The popup chat - hidden by default */
+    .chat-popup {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      right: 15px;
+      border: 3px solid #f1f1f1;
+      z-index: 9;
+    }
+
+    /* Add styles to the form container */
+    .form-container {
+      max-width: 300px;
+      padding: 10px;
+      background-color: white;
+    }
+
+    /* Full-width textarea */
+    .form-container textarea {
+      width: 100%;
+      padding: 15px;
+      margin: 5px 0 22px 0;
+      border: none;
+      background: #f1f1f1;
+      resize: none;
+      min-height: 200px;
+    }
+
+    /* When the textarea gets focus, do something */
+    .form-container textarea:focus {
+      background-color: #ddd;
+      outline: none;
+    }
+
+    /* Set a style for the submit/send button */
+    .form-container .btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 16px 20px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 10px;
+      opacity: 0.8;
+    }
+
+    /* Add a red background color to the cancel button */
+    .form-container .cancel {
+      background-color: red;
+    }
+
+    /* Add some hover effects to buttons */
+    .form-container .btn:hover,
+    .open-button:hover {
+      opacity: 1;
     }
   </style>
 </head>
 
 <body>
-  <div class="container" id="login">
-    <% if (success_message != ''){ %>
-    <div class="alert alert-dismissible alert-success">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <strong> <%= success_message %> </strong>
-    </div>
-    <% } %>
-    <% if( error != '') { %>
-    <div class="alert alert-dismissible alert-danger">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <strong><%= error %></strong>
-    </div>
-    <% } %>
-    <div id="nudge"></div>
-    <h3 class="text-center p-3">Login Here</h3>
-    <div style="margin: 0 auto;" class="col-12 col-md-6 col-lg-5 p-5 customborder">
-      <form action="" method="POST">
-        <div class="form-group">
-          <label for="mobile number">Phonenumber</label>
-          <input type="text" class="form-control" name="digishopkeeper_phonenumber"  autocomplete="off" placeholder="phonenumber" required>
+  <!--Header-->
+  <button class="open-button" onclick="openForm()">Open ChatBot</button>
+
+  <div class="chat-popup" id="myForm">
+
+    <iframe allow="microphone;" width="350" height="430"
+      src="https://console.dialogflow.com/api-client/demo/embedded/d2c87d2e-fc53-4593-afb5-9fbdf87b7f16">
+
+    </iframe>
+    <button type="button" class="btn btn-primary" onclick="closeForm()">Close</button>
+    </form>
+  </div>
+
+  <script>
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+  </script>
+  <header>
+    <div class="collapse bg-dark" id="navbarHeader">
+      <div class="container-fluid">
+        <div class="row" id="p">
+          <div class="col-sm-8 col-md-7 py-4">
+            <a href="/">
+              <h4 class="text-white">Naari</h4>
+            </a>
+            <p class="text-muted" style="font-style:italic"> At Naari, our aim is to enhance the financial independence
+              of women and
+              integrate them into the mainstream money related matters.
+              We believe that in the 21 st century, for India to become a world leader equal
+              participation of women is required and the real key to uplift women lies in their
+              financial literacy. Thus, we came up with a solution, a portal uniquely designed
+              for women- the Naari.</p>
+          </div>
+          <div class="col-sm-4 offset-md-1 py-4">
+            <h4 class="text-white">Contact</h4>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white">Follow on Twitter </a>
+              </li>
+              <li><a href="#" class="text-white">Like on Facebook </a></li>
+              <li><a href="#" class="text-white">Email us</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" class="form-control" name="digishopkeeper_name"  autocomplete="off" placeholder="phonenumber" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" class="form-control" name="digishopkeeper_password"  autocomplete="off" placeholder="phonenumber" required>
-        </div>
-        <div class="form-group">
-          <label for="form-group">Confirm Password</label>
-          <input type="password" class="form-control" name="digishopkeeper_confirmPassword"  autocomplete="off" placeholder="phonenumber" required>
-        </div>
-        <div class="form-group">
-          <input type="hidden" class="form-control" name="digishopkeeper_latt"  autocomplete="off" value="" id= "latt" required>
-        </div>
-        <div class="form-group">
-          <input type="hidden" class="form-control" name="digishopkeeper_long"  autocomplete="off" value="" required id="long">
-        </div>
-        <div class="form-group">
-          <input type="button" class="btn btn-block btn-outline-primary" value="Allow Location" id="btn">
       </div>
-        <div class="form-group">
-          <input type="submit" class="btn btn-block btn-outline-primary" value="Login">
-      </div>        
+    </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+      <div class="container-fluid"></div>
+      <a href="#" class="navbar-brand">
+        <i class="fas fa-piggy-bank"></i>&nbsp;&nbsp;
+        <strong>Home</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+        aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </header>
+
+  <!--Header-->
+  <nav class="navbar navbar-expand-lg navbar-light myBg">
+    <a class="navbar-brand" style="color:white" href="/naari"><B>NAARI</a></B>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active ">
+          <a class="nav-link" href="#"> <span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link dropdown-toggle" style="color: white;" id="navbarDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <B>Login</B>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/woman/login">Woman</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/msme/login">Msme</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/bank/representative/login">Bank Representative</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/digishopkeeper/login">DigiSender</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link dropdown-toggle" style="color: white;" id="navbarDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <B>Signup</B>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/woman/signup">Women</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/msme/signup">Msme</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/bank/representative/signup">Bank Representative</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/digishopkeeper/signup">DigiSender</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
+  </nav>
+
+
+
+  <!--End Header-->
+  <!--Slide show-->
+
+  <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="images/banner_1.jpg" class="d-block w-100" id="slideshowImg" alt="...">
+        <div class="carousel-caption">
+          <h6 style="text-align: end"><B> </B></h6>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="images/A1.png" class="d-block w-100" id="slideshowImg" alt="...">
+        <div class="carousel-caption">
+          <h6 style="text-align:end"></h6>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="images/A3.png" class="d-block w-100" id="slideshowImg" alt="...">
+        <div class="carousel-caption ">
+          <h6 style="text-align: end"><B></B></h6>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
   </div>
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+  <!--End Slide Show-->
+  <Br></Br>
+  <!--Banner-->
+
+  <!-- //////////////////////////// CARD STARTS ////////////////////////////////////////////// -->
+  <!-- Card deck -->
+  <div class="container">
+    <h1 id="this">
+      <center><u><b>Explore - Engage - Empower</b></u></center>
+    </h1>
+    <br>
+    <h4 style="font-family: 'Roboto', sans-serif;">
+      <center>
+        <p align="justify">We believe all women deserve the opportunity to live free from poverty.
+          We aim to provide digital solutions, training and services that enable women to
+          start their businesses, support their families and strengthen their communities.</p>
+      </center>
+      <br>
+      <center>
+        By Veronica Tumuheriwe - <u>“Long live Women’s Empowerment, for you have given me the tools to walk out of the
+          poverty that once enslaved me.”</u></center>
+    </h4>
+    <p>
+    <h4 style="color:red">
+      <br>
+      <center>प्रत्येक देश के दो पंख होते हैं एक स्त्री और दूसरा पुरुष... देश की उन्नति एक पंख से उड़ान भरने पर नही हो
+        सकती हैं | </center>
+    </h4>
+    </p>
+
+
+    <br>
+    <h1 id="Our_Mission">
+      <center><u><b>Our Mission</b></u></center>
+    </h1>
+    <br>
+    <h5>
+      <p align="justify">
+        We believe in the power of women to change their own lives – and the world around them – for the better. When
+        women work together, there’s nothing we can’t do. But while talent is ubiquitous, opportunity is not. That’s
+        where
+        we make a difference.
+        We provide digital innovative solutions and services that enable hard-working women to create sustainable
+        livelihoods, care for their families, improve their lives and change our world.</p>
+    </h5>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="col-7">
+          <h1 id="About_Naari">
+            <center><u><b>About Naari</b></u>
+            </center>
+          </h1>
+          <br>
+          <h5>
+            <p align="justify">At Naari, our aim is to enhance the financial independence of women and
+              integrate them into the mainstream money related matters.
+              We believe that in the 21 st century, for India to become a world leader equal
+              participation of women is required and the real key to uplift women lies in their
+              financial literacy. Thus, we came up with a solution, a portal uniquely designed
+              for women- the Naari.<br></br>
+
+              It not just helps the women understand the basic workflow of legal documents
+              and Banking solutions, but our key feature the “Gullak” scheme acts as a game
+              changer for all investment needs. We also provide an e-market center for women
+              entrepreneurs, Self-Help Groups (SHG) and women operated MSMEs to register
+              and advertise their products.
+              The progress of a woman leads to the development of a complete family. With this
+              portal, we hope to bring a positive trend and make a difference by financial
+              inclusion of women into our society.</p>
+          </h5>
+          <br></br>
+        </div>
+        <div class="col-5">
+          <br><br>
+          <img class="img-responsive" src="./images/naari.jpg" width="500" height="400"> </img>
+        </div>
+      </div>
+    </div>
+
+    <div>
+
+    </div>
+    <h1 id="Services">
+      <center><u><b>Services We Provide</b></u></center>
+    </h1>
+    <br>
+    <br>
+    <div class="card-deck">
+
+      <!--------- 1st Card ----------->
+      <div class="card sm-3">
+
+        <!--Card image-->
+        <div class="view overlay">
+          <img class="card-img-top" src="images/9.jpeg" width="200" height="250" alt="Card image cap">
+          <a href="info/gullak.html">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+          <!--Title-->
+          <h4 class="card-title"><b><u>Gullak</u></b></h4>
+          <p class="card-text" align="justify">Gullak is digital form of commitee. Gullak is a central Bank
+            Account where any woman can add money. The added money will
+            be invested in the market.</p>
+          <a href="info/gullak.html" class="btn btn-light-blue btn-md" target="_blank"><u>Read more</u></a>
+
+        </div>
+
+      </div>
+      <!-- Card -->
+
+      <!--------- 2nd Card ----------->
+      <div class="card sm-3">
+
+        <!--Card image-->
+        <div class="view overlay">
+          <img class="card-img-top" src="images/1.jpg" width="200" height="250" alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+          <!--Title-->
+          <h4 class="card-title"><u><b>Open a Bank Account</b></u></h4>
+          <!--Text-->
+          <p class="card-text" align="justify">Woman can open their bank account by talking with
+            the bank sales representative through video call or voice call and if
+            satisfied they can share their details to the bank for opening their
+            account in that respective bank.</p>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <a href="info/openbankaccount.html" class="btn btn-light-blue btn-md" target="_blank"><u>Read more</u></a>
+        </div>
+
+      </div>
+      <!-- Card -->
+
+      <!------------- 3rd Card -------------->
+      <div class="card sm-3">
+
+        <!--Card image-->
+        <div class="view overlay">
+          <img class="card-img-top" src="images/2.jpg" width="200" height="250" alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+          <!--Title-->
+          <h4 class="card-title"><u><b>E-Market</b></u></h4>
+          <!--Text-->
+          <p class="card-text" align="justify">E-Market facilitates the buying and selling of regional and local goods
+            like food items,
+            handicrafts etc. beyond the boundaries of physical market place.</p>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <a href="info/e_market.html" class="btn btn-light-blue btn-md" target="_blank"><u>Read More</u></a>
+        </div>
+
+      </div>
+      <!-- Card -->
+
+    </div>
+    <!-- Card deck -->
+    <Br></Br>
+    <!-- Card deck -->
+    <div class="card-deck">
+
+      <!----------- 4th Card ------------>
+      <div class="card sm-3">
+
+        <!--Card image-->
+        <div class="view overlay">
+          <img class="card-img-top" src="images/3.png" width="200" height="250" alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+          <!--Title-->
+          <h4 class="card-title"><u><b>Advertise your MSME</b></u></h4>
+          <!--Text-->
+          <p class="card-text" align="justify">In this section, the MSMEs can add vacancies for
+            women and check the details of the applicants. They can even list their product in the marketplace.</p>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <a href="info/advertise_msme.html" class="btn btn-light-blue btn-md" target="_blank"><u>Read more</u></a>
+
+
+        </div>
+
+      </div>
+      <!-- Card -->
+
+      <!------------- 5th Card --------------->
+      <div class="card sm-3">
+
+        <!--Card image-->
+        <div class="view overlay">
+          <img class="card-img-top" src="images/4.jpg" width="200" height="250" alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+          <!--Title-->
+          <h4 class="card-title"><u><b>Job Portal</b></u></h4>
+          <!--Text-->
+          <p class="card-text" align="justify">This section contains an ocean of job opportunities lined up for you. All
+            these jobs are verified and legally authorized. </p>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <a href="info/job_portal.html" class="btn btn-light-blue btn-md" target="_blank"><u>Read more</u></a>
+
+        </div>
+
+      </div>
+      <!-- Card -->
+
+      <!--------------- 6th Card ---------------->
+      <div class="card sm-3">
+
+        <!--Card image-->
+        <div class="view overlay">
+          <img class="card-img-top" src="images/5.jpg" width="200" height="250" alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+          <!--Title-->
+          <h4 class="card-title"><u><b>Education and Documentation</b></u></h4>
+          <!--Text-->
+          <p class="card-text" align="justify">In this section, one can get the information about some of the best
+            learning resources available for free to sharpen an individual's skill. It also provides information on
+            basic
+            documentations such as Aadhar card, PAN card, Passport and a lot more.
+
+          </p>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <a href="info/education.html" class="btn btn-light-blue btn-md" target="_blank"><u>Read more</u></a>
+
+        </div>
+
+      </div>
+    </div>
+    <Br></Br>
+    <div class="card-deck">
+
+      <!--------------- 7th Card ------------------>
+      <!-- Card -->
+      <div class="card sm-3">
+
+        <!--Card image-->
+        <div class="view overlay">
+          <img class="card-img-top" src="images/6.jpg" width="200" height="250" alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+          <!--Title-->
+          <h4 class="card-title"><u><b>HardCash to DigiCash</b></u></h4>
+          <!--Text-->
+          <p class="card-text" align="justify">The woman will provide
+            their hard cash to the shopkeeper, the shopkeeper will
+            click the photo of the note and the ML model will detect
+            whether it is fake or not and inform the value of note.
+            The amount will then be transferred from the shopkeeper to woman's
+            bank account using upi.</p>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <a href="info/hardcashtodigitalcash.html" class="btn btn-light-blue btn-md" target="_blank"><u>Read
+              more</u></a>
+
+        </div>
+
+      </div>
+      <!-- Card -->
+
+      <!-- 8th Card -->
+      <div class="card md-4">
+
+        <!--Card image-->
+        <div class="view overlay">
+          <img class="card-img-top" src="images/7.jpg" width="200" height="250" alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+          <!--Title-->
+          <h4 class="card-title"><u><b>Be Vocal for Local</b></u></h4>
+          <p class="card-text" align="justify">Every MSME needs promotion to get its product to the desired audience.
+            Posters,
+            wall paintings and TV ads do not provide the review of the product, thus having vocal representatives
+            increases the credibility of product.
+            We are presenting a platform to MSME where they can hire women from local regions to promote their products
+            &
+            women will receive credits and incentives for promoting the product.
+
+          </p>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <a href="info/be_vocal_for_local.html" class="btn btn-light-blue btn-md" target="_blank"><u>Read more</u></a>
+
+        </div>
+
+      </div>
+      <!-- Card -->
+
+      <!-- 9th Card -->
+      <div class="card md-4">
+
+        <!--Card image-->
+        <div class="view overlay">
+          <img class="card-img-top" src="images/8.jpg" width="200" height="250" alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+          <!--Title-->
+          <h4 class="card-title"><u><b>Latest Schemes</b></u></h4>
+          <!--Text-->
+          <p class="card-text" align="justify">All the information you need regarding latest schemes related to
+            government as well as private sector can be accessed here.
+          </p>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <a href="info/latestschemes.html" class="btn btn-light-blue btn-md" target="_blank"><u>Read more</u></a>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Card deck -->
+  <Br></Br>
+
+  <!-- Footer -->
+  <div class="footer">
+    <footer class="page-footer font-small mdb-color pt-4">
+
+      <!-- Footer Links -->
+      <div class="container text-center text-md-left">
+
+        <!-- Footer links -->
+        <div class="row text-center text-md-left mt-3 pb-3">
+
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h5 class="text-uppercase mb-4 font-weight-bold"><U>NAARI</U></h5>
+            <p align="left">"Naari", the most powerful & precious creation of God.
+              She plays a lot of hard roles like mother, wife, daughter, etc throughout her entire life
+              & these roles seem tougher if she's a working woman.
+              Unfortunately, in India women lack the status & respect they deserve as compared to men.
+              Through this platform we aim to uplift women.
+
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <hr class="w-100 clearfix d-md-none">
+
+          <!-- Grid column -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h5 class="text-uppercase mb-4 font-weight-bold"><U>About Us</U></h5>
+            <p>
+              <a href="#this" style="color: black;">Dashboard</a>
+            </p>
+            <p>
+              <a href="#Our_Mission" style="color: black;">Our Mission </a>
+            </p>
+            <p>
+              <a href="#About_Naari" style="color: black;">About Naari</a>
+            </p>
+            <p>
+              <a href="#Services" style="color: black;">Services</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <hr class="w-100 clearfix d-md-none">
+
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h5 class="text-uppercase mb-4 font-weight-bold"><U>Useful links</U></h5>
+            <p>
+              <a href="info/gullak.html" style="color: black;">Gullak</a>
+            </p>
+            <p>
+              <a href="info/openbankaccount.html" style="color: black;">Open a bank account</a>
+            </p>
+            <p>
+              <a href="info/e_market.html" style="color: black;">E-Market</a>
+            </p>
+            <p>
+              <a href="info/education.html" style="color: black;">Education and Documentation</a>
+            </p>
+            <p>
+              <a href="info/hardcashtodigitalcash.html" style="color: black;">HardCash to Digicash</a>
+            </p>
+            <p>
+              <a href="info/latestschemes.html" style="color: black;">Latest Schemes</a>
+            </p>
+          </div>
+
+
+          <!-- Grid column -->
+          <hr class="w-100 clearfix d-md-none">
+
+          <!-- Grid column -->
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h5 class="text-uppercase mb-4 font-weight-bold"><U>Contact Us</U></h5>
+            <p>
+              <i class="fas fa-home mr-3"></i>G.L. Bajaj Institute Of Technology and Management</p>
+            <p>
+            <p>
+              <i class="fas fa-home mr-3"></i>Greater Noida, India</p>
+            <p>
+              <i class="fas fa-envelope mr-3"></i> naari@gmail.com</p>
+            <p>
+              <i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+            <p>
+              <i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+          </div>
+          <!-- Grid column -->
+
+        </div>
+        <!-- Footer links -->
+
+        <hr>
+
+        <!-- Grid row -->
+        <div class="row d-flex align-items-center">
+
+          <!-- Grid column -->
+          <div class="col-md-7 col-lg-8">
+
+            <!--Copyright-->
+            <p class="text-center text-md-left">© 2020 Copyright:
+              <a href="index.html">
+                <strong style="color: darkred;"> naari.com</strong>
+              </a>
+            </p>
+
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-5 col-lg-4 ml-lg-0">
+
+            <!-- Social buttons -->
+            <div class="text-center text-md-right">
+              <ul class="list-unstyled list-inline">
+                <li class="list-inline-item">
+                  <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                    <i class="fab fa-facebook-f"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                    <i class="fab fa-google-plus-g"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                    <i class="fab fa-linkedin-in"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+          <!-- Grid column -->
+
+        </div>
+        <!-- Grid row -->
+
+      </div>
+      <!-- Footer Links -->
+
+    </footer>
+  </div>
+
+  <!-- Footer -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
     crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/js/location.js"></script>
+  <script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>
