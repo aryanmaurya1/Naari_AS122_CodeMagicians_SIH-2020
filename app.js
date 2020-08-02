@@ -17,7 +17,8 @@ app.set("views", path.join(__dirname, "views"));
 
 const { configStrategy, isAuthenticated } = require("./config/passport");
 const digishopkeeper = require("./controller/digishopkeeper");
-
+const woman = require("./controller/woman");
+const wallet = require("./controller/wallet");
 
 
 app.use(bodyParser.json());
@@ -52,6 +53,7 @@ app.use(function (req, res, next) {
 
 app.use(express.static(path.join(__dirname, "/public")));
 
+// hard cash to digi cash related routes...
 app.get("/digishopkeeper/login", digishopkeeper.getLogin);
 app.post("/digishopkeeper/login", digishopkeeper.postLogin);
 app.get("/digishopkeeper/signup", digishopkeeper.getSignUp);
@@ -60,6 +62,18 @@ app.get("/digishopkeeper/send", isAuthenticated, digishopkeeper.send);
 app.post("/digishopkeeper/send", isAuthenticated, digishopkeeper.postConvertMoney);
 app.post("/digishopkeeper/oncompletion",isAuthenticated, digishopkeeper.digishopkeeperoncompletion);
 
+// woman related routes
+app.get("/woman/signup", woman.getSignup);
+app.post("/woman/signup", woman.postSignup);
+app.get("/woman/login", woman.getLogin);
+app.post("/woman/login", woman.postLogin);
+app.get("/woman/dashboard", isAuthenticated, woman.getWomanDashboard);
+app.get("/woman/documentation", isAuthenticated, woman.getWomanDocumentation);
+// app.get("/womaneducation.html")
+
+
+// gullak related routes
+app.get("/woman/wallet", isAuthenticated, wallet.getWallet);
 
 const server = http.createServer(app);
 

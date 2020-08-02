@@ -36,3 +36,9 @@ create table recievers(
   reciever_phonenumber char(10) not null,
   sender_id bigserial references digishopkeeper(digishopkeeper_id) not null
 );
+
+create table gullak_ledger(
+  transaction_id bigserial primary key,
+  from_wallet_no bigserial references wallets(wallet_no) not null,
+  amnt int not null
+);

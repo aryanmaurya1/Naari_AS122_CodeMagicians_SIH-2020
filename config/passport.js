@@ -37,10 +37,40 @@ const digishopkeeper = new LocalStrategy(
       });
   })
 
+  const womanStrategy = new LocalStrategy(
+    {
+      usernameField: "woman_phonenumber",
+      passwordField: "password"
+    },
+    function (woman_phonenumber, password, done) {
+      query("SELECT woman_phonenumber,woman_password,woman_id FROM women WHERE woman_phonenumber=$1", [woman_phonenumber])
+        .then(function (result) {
+          const data = result.rows;
+  
+          if (data.length === 0) {
+            done(null, false, { message: "User Doesn't Exist.Kindly signup" });
+          }
+  
+          const hash = data[0].woman_password;
+          brcypt.compare(password, hash)
+            .then(function (match) {
+              return match ? done(null, data[0].woman_id) : done(null, false, { message: "Invalid Password" });
+            })
+            .catch(function (err) {
+              console.log(err);
+              return done(null, false, { message: "Internal Server Error. Kindly try Again" });
+            });
+        })
+        .catch(function (err) {
+          console.log(err);
+          return done(null, false, { message: "Internal Server Error. Kindly try Again" });
+        });
+    })
+  
 
 const configStrategy = (passport) => {
   passport.use('local.digishopkeeper',digishopkeeper);
-  
+  passport.use("local.woman", womanStrategy);
   
   
   passport.serializeUser(function (id, done) {

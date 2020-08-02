@@ -6,7 +6,6 @@ const child = require("../config/child");;
 const checksum_lib = require("../config/checksum");
 const https = require("https");
 
-var cookies = null;
 
 const { HOSTNAME } = require("../env");
 const PaytmConfig = {
