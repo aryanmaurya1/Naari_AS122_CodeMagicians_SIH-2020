@@ -1,5 +1,5 @@
 # Naari - A initiative for financial inclusion of woman
-###  Naari is fintech web app, built on cutting edge technology to promote woman in the field of finance and enterpreneurship. The web app uses government apis, googleapis to add more functionality to the same.
+###  Naari is fintech web app, built on cutting edge technology to promote woman in the field of finance and enterpreneurship. The web app uses government apis, googleapis and paytm payment gateway to add more functionality to the same.
 
 # Unboxing web app features
 
