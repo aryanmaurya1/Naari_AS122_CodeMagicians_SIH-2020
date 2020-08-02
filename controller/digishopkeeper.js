@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const { check, validationResult } = require("express-validator");
-const { query } = require("../db");
+const { query,digishopkeeper_transaction } = require("../db");
 const child = require("../config/child");;
 const checksum_lib = require("../config/checksum");
 const https = require("https");
@@ -140,7 +140,26 @@ const postLogin = async (req, res,next) => {
 }
 
 const getsendpage = (req, res) => {
-  res.render("send");
+  const digishopkeeper_id = req.session.passport.user;
+  query("SELECT digishopkeeper_wallet_no FROM digishopkeeper WHERE digishopkeeper_id=$1",[digishopkeeper_id])
+    .then(function(result){
+      const wallet_no = result.rows[0].digishopkeeper_wallet_no;
+      query("SELECT wallet_balance FROM wallets WHERE wallet_no=$1",[wallet_no])
+        .then(function(result) {
+          const wallet_balance = result.rows[0].wallet_balance;
+          res.render("send",{wallet_balance:wallet_balance});
+        })
+        .catch(function(err){
+          console.log(err);
+          req.flash("error", "kindly try again");
+          res.redirect("/digishopkeeper/login");
+        })
+    })
+    .catch(function(err) {
+      console.log(err);
+      req.flash("error", "kindly try again");
+      res.redirect("/digishopkeeper/login");
+    })  
 }
 
 
@@ -178,8 +197,7 @@ const postConvertMoney = async (req, res) => {
     .then(async function(amnt){
       console.log("Predicted Amount is", amnt);
       // await digiIndianTransferMoney(reciever,sender_id);
-      cookieParser.signedCookie("reciever_phonenumber",reciever);
-      console.log(req.signedCookies);
+      res.cookie("reciever_phonenumber",reciever);
       renderPaymentGateway(amnt,req,res);
 
     })
@@ -217,7 +235,9 @@ function renderPaymentGateway(amount,req,res) {
  */
 const digishopkeeperoncompletion = async (req, res) => {
   console.log("digishopkeeper on completion",req.body);
-  console.log(req.signedCookies);
+  const sender_id = req.session.passport.user;
+  const reciever_phonenumber = req.cookies.reciever_phonenumber;
+
   // verify the checksum
   let checksumhash = req.body.CHECKSUMHASH;
   let result = checksum_lib.verifychecksum(req.body, PaytmConfig.key, checksumhash);
@@ -259,11 +279,20 @@ const digishopkeeperoncompletion = async (req, res) => {
 
         if (tnx_response.STATUS !== 'TXN_SUCCESS') {
           req.flash("error", "error occured while adding money to gullak");
-          res.send("failure");
+          res.send("/digishopkeeper/send");
         }
         else {
-          req.flash("success_message", "success");
-          res.send("success")
+          try{
+            await digishopkeeper_transaction(sender_id, reciever_phonenumber);
+            req.flash("success_message", "success");
+            res.redirect("/digishopkeeper/send");
+          } catch(err) {
+            console.log(err);
+            req.flash("error", "error occured while performing transaction");
+            res.redirect("/digishopkeeper/send");
+          }
+
+          
         }
       });
     });
