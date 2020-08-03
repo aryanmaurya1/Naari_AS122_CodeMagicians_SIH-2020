@@ -11,3 +11,5 @@ In this feature woman can change their hard cash to digital cash using  ML Algor
 
 ## Emarket 
 This is digital marketplace where verified msme can promote their product, get real time statistics about the reach of their product, and can also search 
+
+Today we are working on implementing gullak backend.
