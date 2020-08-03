@@ -13,5 +13,6 @@ module.exports = {
   SESSION_SECRET: "35nnn32newrew023mlefNONWFE",
   PORT: 7432,
   HOSTNAME:"localhost",
-  USER:"ram"
+  USER:"ram",
+  HOSTNAME_FOR_GATEWAY:"192.199.72.156"
 };
