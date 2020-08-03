@@ -103,10 +103,46 @@ const gullakTransaction = async function(woman_id, amount) {
   }
 }
 
+
+const gullakReedem = async function (woman_id)  {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const wallet_no = (await client.query("SELECT woman_wallet_no FROM women WHERE woman_id=$1",[woman_id])).rows[0].woman_wallet_no; 
+    //get total contribution of all women...
+    const totalContribution = parseFloat((await client.query("SELECT SUM(amnt) As total FROM gullak_ledger")).rows[0].total);
+    //get contribution of the particular woman...
+    const totalContributionWoman = parseFloat((await client.query("SELECT SUM(amnt) AS total FROM gullak_ledger WHERE from_wallet_no=$1", [wallet_no])).rows[0].total)
+    //get current balance of gullak wallet..
+    const total = parseInt((await (await client.query("SELECT gullak_balance FROM gullak WHERE gullak_id=1")).rows[0].gullak_balance),10);
+    console.log(total);
+    console.log(totalContribution);
+    console.log(totalContributionWoman);
+    const ans = ((totalContributionWoman / totalContribution) * (total - totalContribution)) + totalContributionWoman;
+    console.log(ans);
+
+    await client.query("UPDATE wallets SET wallet_balance=wallet_balance + $1 WHERE wallet_no=$2", [ans, wallet_no]);
+
+    await client.query("UPDATE gullak SET gullak_balance=gullak_balance - $1 WHERE gullak_id=1", [ans])
+
+    await client.query("DELETE FROM gullak_ledger WHERE from_wallet_no=$1", [wallet_no]);
+
+    await client.query("COMMIT");
+  } catch(err) {
+    console.log(err);
+    await client.query('ROLLBACK')
+    throw err;
+  } finally {
+    client.release()
+
+  }
+}
+
 module.exports = {
   pool:pool,
   query:query,
   digishopkeeper_transaction:digishopkeeper_transaction,
   walletTransaction: walletTransaction,
-  gullakTransaction: gullakTransaction
+  gullakTransaction: gullakTransaction,
+  gullakReedem: gullakReedem
 }

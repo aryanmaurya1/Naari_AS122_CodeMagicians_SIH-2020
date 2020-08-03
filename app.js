@@ -82,6 +82,7 @@ app.post("/wallet/oncompletion", isAuthenticated, wallet.walletoncompletion);
 // gullak related routes
 app.post("/gullak/addmoney", isAuthenticated, gullak.gullakAddMoney);
 app.post("/gullak/add/oncompletion", isAuthenticated, gullak.gullakaddoncompletion);
+app.get("/gullak/reedem",isAuthenticated, gullak.getGullakReedem);
 
 // msme realted routes
 app.get("/msme/signup", msme.getMsmeSignup);

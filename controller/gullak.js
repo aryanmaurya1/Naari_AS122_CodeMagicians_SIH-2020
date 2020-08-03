@@ -1,7 +1,7 @@
 const https = require('https');
 const qs = require("querystring");
 const checksum_lib = require("../config/checksum");
-const {gullakTransaction} = require("../db");
+const {gullakTransaction,gullakReedem} = require("../db");
 
 const { HOSTNAME,PORT,USER } = require("../env");
 const PaytmConfig = {
@@ -115,8 +115,29 @@ const gullakaddoncompletion = (req, res) => {
   });
 
 }
+
+
+/**
+ * GET /gullak/redeem 
+ */
+const getGullakReedem = async (req, res) => {
+
+  const woman_id = req.session.passport.user;
+  try {
+    await gullakReedem(woman_id);
+    req.flash("success_message", "Transaction successful");
+    res.redirect("/woman/wallet");
+
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "Transaction failed due to some unavoidable circumstaces.Try again later")
+    res.redirect("/woman/wallet");
+  }
+};
+
 // adding routes now....
 module.exports = {
   gullakAddMoney: gullakAddMoney,
-  gullakaddoncompletion: gullakaddoncompletion
+  gullakaddoncompletion: gullakaddoncompletion,
+  getGullakReedem: getGullakReedem
 }
