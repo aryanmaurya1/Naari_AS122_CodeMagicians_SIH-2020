@@ -26,7 +26,7 @@
 
     /* Button used to open the chat form - fixed at the bottom of the page */
     .open-button {
-      background-color: #555;
+      background-color: black;
       color: white;
       padding: 16px 20px;
       border: none;
@@ -100,19 +100,21 @@
 
 <body>
   <!--Header-->
-  <button class="open-button" onclick="openForm()">Open ChatBot</button>
+  <button class="open-button" onclick="openForm()">
+    <h4><b>Sahayika</b></h4>
+  </button>
 
   <div class="chat-popup" id="myForm">
 
     <iframe allow="microphone;" width="350" height="430"
-      src="https://console.dialogflow.com/api-client/demo/embedded/d2c87d2e-fc53-4593-afb5-9fbdf87b7f16">
+      src="https://console.dialogflow.com/api-client/demo/embedded/af49185d-bef2-49d6-99c6-260e44d7ba7e">
 
     </iframe>
     <button type="button" class="btn btn-primary" onclick="closeForm()">Close</button>
     </form>
   </div>
 
-  <script>
+  <!-- <script>
     function openForm() {
       document.getElementById("myForm").style.display = "block";
     }
@@ -120,7 +122,7 @@
     function closeForm() {
       document.getElementById("myForm").style.display = "none";
     }
-  </script>
+  </script> -->
   <header>
     <div class="collapse bg-dark" id="navbarHeader">
       <div class="container-fluid">
@@ -155,6 +157,22 @@
         <i class="fas fa-piggy-bank"></i>&nbsp;&nbsp;
         <strong>Home</strong>
       </a>
+      <script>
+        function openForm() {
+          document.getElementById("myForm").style.display = "block";
+        }
+        function closeForm() {
+          document.getElementById("myForm").style.display = "none";
+        }
+      </script>
+      <div id="google_translate_element" style="display: block;"></div>
+      <script type="text/javascript"
+        src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+      <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+        }
+      </script>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
         aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
