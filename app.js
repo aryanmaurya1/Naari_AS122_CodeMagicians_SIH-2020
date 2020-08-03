@@ -19,7 +19,7 @@ const { configStrategy, isAuthenticated } = require("./config/passport");
 const digishopkeeper = require("./controller/digishopkeeper");
 const woman = require("./controller/woman");
 const wallet = require("./controller/wallet");
-
+const gullak = require("./controller/gullak");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -77,6 +77,9 @@ app.get("/woman/wallet", isAuthenticated, wallet.getWallet);
 app.post("/wallet/addmoney", isAuthenticated, wallet.addMoneyToWallet);
 app.post("/wallet/oncompletion", isAuthenticated, wallet.walletoncompletion);
 
+// gullak related routes
+app.post("/gullak/addmoney",isAuthenticated, gullak.gullakAddMoney);
+app.post("/gullak/add/oncompletion", isAuthenticated, gullak.gullakaddoncompletion);
 
 const server = http.createServer(app);
 
