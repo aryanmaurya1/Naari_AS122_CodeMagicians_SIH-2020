@@ -72,10 +72,41 @@ const walletTransaction = async function(woman_id, amount) {
   } finally {
     client.release()
   }
+};
+
+const gullakTransaction = async function(woman_id, amount) {
+  const client = await pool.connect();
+  try{
+    console.log(amount);
+    await client.query('BEGIN');
+    const wallet_no  = (await client.query("SELECT woman_wallet_no FROM women WHERE woman_id=$1",[woman_id])).rows[0].woman_wallet_no;
+    
+    const sender_wallet_balance = (await client.query("SELECT wallet_balance FROM wallets WHERE wallet_no=$1",[wallet_no])).rows[0].wallet_balance;
+    
+    if(sender_wallet_balance < amount) {
+      throw new Error("insufficient balance");
+    }
+
+    await client.query("UPDATE wallets SET wallet_balance=wallet_balance-$1 WHERE wallet_no=$2",[amount,wallet_no]);
+
+    await client.query("UPDATE gullak SET gullak_balance=gullak_balance+$1 WHERE gullak_id=1",[amount]);
+
+    await client.query("INSERT INTO gullak_ledger(from_wallet_no,amnt) VALUES($1,$2)",[wallet_no,amount]);
+    
+    await client.query('COMMIT');
+  } catch(err){
+    console.log(err);
+    await client.query('ROLLBACK')
+    throw err;
+  } finally {
+    client.release()
+  }
 }
+
 module.exports = {
   pool:pool,
   query:query,
   digishopkeeper_transaction:digishopkeeper_transaction,
-  walletTransaction: walletTransaction
+  walletTransaction: walletTransaction,
+  gullakTransaction: gullakTransaction
 }
