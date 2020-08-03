@@ -42,3 +42,8 @@ create table gullak_ledger(
   from_wallet_no bigserial references wallets(wallet_no) not null,
   amnt int not null
 );
+
+create table gullak(
+  gullak_id bigserial primary key,
+  gullak_balance real not null
+);

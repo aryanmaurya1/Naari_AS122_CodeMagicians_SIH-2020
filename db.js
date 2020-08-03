@@ -55,8 +55,27 @@ const digishopkeeper_transaction = async function(reciever_phonenumber, sender_i
   }
 };
 
+
+const walletTransaction = async function(woman_id, amount) {
+  const client = await pool.connect();
+  try{
+    console.log(amount);
+    await client.query('BEGIN');
+    const wallet_no  = (await client.query("SELECT woman_wallet_no FROM women WHERE woman_id=$1",[woman_id])).rows[0].woman_wallet_no;
+    
+    await client.query("UPDATE wallets SET wallet_balance=wallet_balance+$1 WHERE wallet_no=$2",[amount, wallet_no]);
+    await client.query('COMMIT');
+  } catch(err){
+    console.log(err);
+    await client.query('ROLLBACK')
+    throw err;
+  } finally {
+    client.release()
+  }
+}
 module.exports = {
   pool:pool,
   query:query,
-  digishopkeeper_transaction:digishopkeeper_transaction
+  digishopkeeper_transaction:digishopkeeper_transaction,
+  walletTransaction: walletTransaction
 }

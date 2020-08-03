@@ -72,8 +72,11 @@ app.get("/woman/documentation", isAuthenticated, woman.getWomanDocumentation);
 // app.get("/womaneducation.html")
 
 
-// gullak related routes
+// woman wallet related routes
 app.get("/woman/wallet", isAuthenticated, wallet.getWallet);
+app.post("/wallet/addmoney", isAuthenticated, wallet.addMoneyToWallet);
+app.post("/wallet/oncompletion", isAuthenticated, wallet.walletoncompletion);
+
 
 const server = http.createServer(app);
 
