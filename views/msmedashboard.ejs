@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="Description" content="">
+  <meta name="Keywords" content="Gullak">
+  <link rel="icon" type="images/png" href="/images/logo.jpg">
+  <meta name="author" content="CodeMagicians">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="/fontawesome-free-5.13.0-web/css/all.css">
+  <title>Msme Dashboard</title>
+</head>
+
+<body>
+  <header>
+    <div class="collapse bg-dark" id="navbarHeader">
+      <div class="container-fluid">
+        <div class="row" id="p">
+          <div class="col-sm-8 col-md-7 py-4">
+            <a href="/">
+              <h4 class="text-white">Naari</h4>
+            </a>
+            <p class="text-muted">Add some information about our web app, what we want to do, who owns the site, simply
+              any catchy paragraph containing atleast 30 words explaining our web app, who we are what we do, .</p>
+          </div>
+          <div class="col-sm-4 offset-md-1 py-4">
+            <h4 class="text-white">Some Useful links</h4>
+            <ul class="list-unstyled">
+              <li><a href="/" class="text-white">Home Page</a></li>
+              <li><a href="/msme/addproduct" class="text-white">Add Your Product to E-Market</a></li>
+              <li><a href="/msme/addjob" class="text-white">Hire woman for MSME</a></li>
+              <li><a href="/msme/logout">Logout</a></li>
+              <li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+      <div class="container-fluid"></div>
+      <a href="#" class="navbar-brand">
+        <i class="fas fa-piggy-bank"></i>&nbsp;&nbsp;
+        <strong>MSME</strong>
+        <%if(typeof msme_name !== 'undefined'){%>
+        <strong><%=msme_name%></strong>
+        <%}%>
+            <strong>DASHBOARD</strong>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      </div>
+    </header>
+     <br>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <h4>MSME DETAIL</h4>
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Name:</strong> Jaipur Handmade Cloths</li>
+        <li class="list-group-item"><strong>Owner:</strong> Smt. Suman Khare</li>
+        <li class="list-group-item"><strong>UAM:</strong> 789564123852</li>
+        <li class="list-group-item"><strong>Phonenumber:</strong> 8954886175</li>    
+            <%if(typeof msme_details !== 'undefined'){%>
+        <li class="list-group-item"><strong>Name:</strong> <%=msme_details.name%></li>
+        <li class="list-group-item"><strong>Owner:</strong> <%=msme_details.owner%></li>
+        <li class="list-group-item"><strong>UAM:</strong> <%=msme_details.uam%></li>
+        <li class="list-group-item"><strong>Owner:</strong> <%=msme_details.owner%></li>
+        <li class="list-group-item"><strong>Phonenumber:</strong> <%=msme_details.phonenumber%></li>
+        <%}%>
+          </ul>
+        </div>
+        <div class="col-md-8">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Job Name</th>
+                <th scope="col">Job Applicants Count</th>
+                <th scope="col">Applicant Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1.</th>
+                <td>Cloth Stiching</td>
+                <td>3</td>
+                <td><a href="www.example.com">Go To Details</a></td>
+              </tr>
+              <tr>
+                <th scope="row">2.</th>
+                <td>Saree Teh krna</td>
+                <td>7</td>
+                <td><a href="www.example.com">Go To Details</a></td>
+              </tr>
+              <%if(typeof jobs_list !== 'undefined'){%>
+        <%jobs_list.forEach( function(ele,index) {%>
+        <tr>
+          <th scope="row"><%=index+1%></th>
+          <td><%=ele.job_title%></td>
+          <td><%=ele.job_applicants_count%></td>
+          <td><a href='/applicant/details/<%=ele.job_id%>'>Applicants Details</a></td>
+        </tr>
+        <%})%>
+        <%}%>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">No. of Likes</th>
+                <th scope="col">No. of Interested</th>
+                <th scope="col">No. of Contacted</th>
+                <th scope="col">No. Of People Wants To be Vocals</th>
+                <th scope="col">Details of Vocals Link</th>
+                <th scope="col">Link To Product</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1.</th>
+                <td>Banarsi Saaree</td>
+                <td>67</td>
+                <td>34</td>
+                <td>11</td>
+                <td>7</td>
+                <td><a href="www.example.com">Go to details</a></td>
+                <td><a href="/emarket/3">link</a></td>
+              </tr>
+              <tr>
+                <th scope="row">2.</th>
+                <td>Patiala Suit</td>
+                <td>110</td>
+                <td>50</td>
+                <td>20</td>
+                <td>25</td>
+                <td><a href="www.example.com">Go to details</a></td>
+                <td><a href="/emarket/3">link</a></td>
+              </tr>
+              <%if(typeof products_list !== 'undefined'){%>
+        <%product_list.forEach( function(ele,index) {%>
+
+        <%})%>
+        <%}%>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-md-4">
+          <img src="/images/pie.jpeg" class="img-fluid">
+          <p>The above pie chart shows the  reach of product to different age groups. </p>
+        </div>
+        <div class="col-md-8">
+          <h4>Reach Of Product on basis of Location</h4>
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Gangori Bazar:</strong> 56.7%</li>
+            <li class="list-group-item"><strong>Badi Choupad:</strong> 41.8%</li>
+            <li class="list-group-item"><strong>Brahampuri:</strong> 1.5%</li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>

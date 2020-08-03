@@ -20,6 +20,8 @@ const digishopkeeper = require("./controller/digishopkeeper");
 const woman = require("./controller/woman");
 const wallet = require("./controller/wallet");
 const gullak = require("./controller/gullak");
+const msme = require("./controller/msme");
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -80,6 +82,17 @@ app.post("/wallet/oncompletion", isAuthenticated, wallet.walletoncompletion);
 // gullak related routes
 app.post("/gullak/addmoney", isAuthenticated, gullak.gullakAddMoney);
 app.post("/gullak/add/oncompletion", isAuthenticated, gullak.gullakaddoncompletion);
+
+// msme realted routes
+app.get("/msme/signup", msme.getMsmeSignup);
+app.post("/msme/signup", msme.postMsmeSignup);
+app.get("/msme/login", msme.getMsmeLogin);
+app.post("/msme/login", msme.postMsmeLogin);
+app.get("/msme/dashboard", isAuthenticated, msme.getMsmeDashboard);
+app.get("/msme/logout", isAuthenticated, msme.getMsmeLogout);
+app.get("/msme/addjob", isAuthenticated, msme.getMsmeAddJob);
+app.post("/msme/addjob",isAuthenticated, msme.postMsmeAddJob);
+
 
 const server = http.createServer(app);
 

@@ -66,12 +66,44 @@ const digishopkeeper = new LocalStrategy(
           return done(null, false, { message: "Internal Server Error. Kindly try Again" });
         });
     })
+
+    const msmeStrategy = new LocalStrategy(
+      {
+        usernameField: "phonenumber",
+        passwordField: "password"
+      },
+      function (phonenumber, password, done) {
+        console.log(phonenumber);
+        console.log(password);
+        query("SELECT msme_phonenumber,msme_password,msme_id FROM msmes WHERE msme_phonenumber=$1", [phonenumber])
+          .then(function (result) {
+            const data = result.rows[0];
+    
+            if (data.length === 0) {
+              done(null, false, { message: "User Doesn't Exist.Kindly signup" });
+            }
+    
+            const hash = data.msme_password;
+            brcypt.compare(password, hash)
+              .then(function (match) {
+                return match ? done(null, data.msme_id) : done(null, false, { message: "Invalid Password" });
+              })
+              .catch(function (err) {
+                console.log(err);
+                return done(null, false, { message: "Internal Server Error. Kindly try Again" });
+              });
+          })
+          .catch(function (err) {
+            console.log(err);
+            return done(null, false, { message: "Internal Server Error. Kindly try Again" });
+          });
+      })
   
 
 const configStrategy = (passport) => {
   passport.use('local.digishopkeeper',digishopkeeper);
   passport.use("local.woman", womanStrategy);
-  
+  passport.use("local.msme", msmeStrategy);  
   
   passport.serializeUser(function (id, done) {
     console.log("serialize user id" , id);
