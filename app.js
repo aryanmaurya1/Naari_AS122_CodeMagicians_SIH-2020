@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const path = require("path");
 const http = require("http");
 const cors = require('cors');
-const app  = express();
+const app = express();
 const flash = require("connect-flash");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -57,10 +57,10 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.get("/digishopkeeper/login", digishopkeeper.getLogin);
 app.post("/digishopkeeper/login", digishopkeeper.postLogin);
 app.get("/digishopkeeper/signup", digishopkeeper.getSignUp);
-app.post("/digishopkeeper/signup",digishopkeeper.postSignUp);
+app.post("/digishopkeeper/signup", digishopkeeper.postSignUp);
 app.get("/digishopkeeper/send", isAuthenticated, digishopkeeper.send);
 app.post("/digishopkeeper/send", isAuthenticated, digishopkeeper.postConvertMoney);
-app.post("/digishopkeeper/oncompletion",isAuthenticated, digishopkeeper.digishopkeeperoncompletion);
+app.post("/digishopkeeper/oncompletion", isAuthenticated, digishopkeeper.digishopkeeperoncompletion);
 
 // woman related routes
 app.get("/woman/signup", woman.getSignup);
@@ -78,7 +78,7 @@ app.post("/wallet/addmoney", isAuthenticated, wallet.addMoneyToWallet);
 app.post("/wallet/oncompletion", isAuthenticated, wallet.walletoncompletion);
 
 // gullak related routes
-app.post("/gullak/addmoney",isAuthenticated, gullak.gullakAddMoney);
+app.post("/gullak/addmoney", isAuthenticated, gullak.gullakAddMoney);
 app.post("/gullak/add/oncompletion", isAuthenticated, gullak.gullakaddoncompletion);
 
 const server = http.createServer(app);
