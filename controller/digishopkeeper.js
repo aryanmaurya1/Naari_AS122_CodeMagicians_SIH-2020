@@ -7,7 +7,7 @@ const checksum_lib = require("../config/checksum");
 const https = require("https");
 
 
-const { HOSTNAME } = require("../env");
+const { HOSTNAME,USER } = require("../env");
 const PaytmConfig = {
   mid: "WAdOtf51495931344880",
   key: "Ka@oQE5rr!hILh6n",
@@ -186,7 +186,7 @@ const postConvertMoney = async (req, res) => {
   const extension = file.name.split('.')[1];
   console.log(req.sessionID);
   const filename = req.sessionID + "." + extension;
-  file.mv(`/home/onbit-syn/AS122_CodeMagicians_SIH2020/money/${filename}`, function (err) {
+  file.mv(`/home/${USER}/AS122_CodeMagicians_SIH2020/money/${filename}`, function (err) {
     if (err) {
       console.log(err);
       req.flash("error", "error occured while uploading a file");
