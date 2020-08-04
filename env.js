@@ -12,6 +12,6 @@ module.exports = {
   COOKIE_SECRET: "#4wq5wnmo4nantypwqmp1&^%*",
   SESSION_SECRET: "35nnn32newrew023mlefNONWFE",
   PORT: 7432,
-  HOSTNAME:"0.0.0.0",
-  USER:"ram",
+  HOSTNAME:"localhost",
+  USER:"onbit-syn",
 };
