@@ -1,5 +1,5 @@
 # Naari - An initiative for financial inclusion of woman
-###  Naari is a fintech web app, built on cutting edge technology to promote woman in the field of finance and enterpreneurship. The web app uses government apis, googleapis and paytm payment gateway to add more functionality to the same.
+####  Naari is a fintech web app, built on cutting edge technology to promote woman in the field of finance and enterpreneurship. The web app uses government apis, googleapis and paytm payment gateway to add more functionality to the same.
 
 # Unboxing web app features
 
@@ -8,3 +8,4 @@ Gullak is a new and secured digital form of investment at a large scale, which i
 
 ## Hard Cash To Digital Cash
 In this feature woman can change their hard cash to digital cash using  ML Algorithm, Payment Api, Geolocation Api. They can simply search for the shops nearby them who are registerd in our web app and change their hard cash to digital cash by using our web application. The amount wis directly transfered to the wallet which is linked to some bank account.
+#
